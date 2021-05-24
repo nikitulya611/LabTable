@@ -7,11 +7,11 @@
 using std::string;
 using std::ostream;
 
-template<class T>
+/*template<class T>
 class BaseTable;
 
 template<class T>
-ostream& operator<< (ostream&, const BaseTable<T>&);
+ostream& operator<< (ostream&, const BaseTable<T>&);*/
 
 template <class T>
 class BaseTable
@@ -66,7 +66,16 @@ public:
 
 	virtual T operator[](string key) = 0;
 
-	friend  ostream& operator << <>(ostream&, const BaseTable&);
+	//friend  ostream& operator << <>(ostream&, const BaseTable&);
+
+	virtual void print(ostream& out = std::cout)
+	{
+		out << "Key\t\tValue\n";
+		for (int i = 0; i < this->dataCount; i++)
+		{
+			out << this->data[i] <<"\n";
+		}
+	}
 
 
 protected:
@@ -76,10 +85,12 @@ protected:
 	Record<T>* data;
 };
 
-template<class T>
+/*template<class T>
 ostream& operator<<(ostream& os, const BaseTable<T>& table)
 {
 	for (int i = 0; i < table.dataCount; i++)
-		os << table.data[i] << " | ";
+	{
+		os << table.data[i] << "\n";
+	}
 	return os;
-}
+}*/

@@ -35,7 +35,7 @@ public:
 		delete[] this->data;
 	}
 
-	int hash(string key)
+	int hash(string key) const
 	{
 		unsigned int hash, i;
 		for (hash = i = 0; i < key.size(); ++i)
@@ -123,13 +123,14 @@ public:
 				throw std::exception("Access: Wrong key");
 
 			index += prime;
+			index %= this->maxSize;
 		}
 
 		return this->data[index].getValue();
 
 	}
 
-	void print(ostream& out)
+	void print(ostream& out = std::cout)
 	{
 		out << "Key\t\tHash\t\tValue\n";
 		for (int i = 0; i < this->maxSize; i++)
@@ -141,8 +142,26 @@ public:
 		}
 	}
 
+
+	//friend  ostream& operator << <>(ostream&, const HashTable&);
+
 private:
 	static const int prime = 1;
 
 };
+
+
+/*template<class T>
+ostream& operator<<(ostream& os, const HashTable<T>& table)
+{
+	os << "Key\t\tHash\t\tValue\n";
+	for (int i = 0; i < table.maxSize; i++)
+	{
+		if (table.data[i].getKey() != "")
+		{
+			os << table.data[i].getKey() << "\t\t" << table.hash(table.data[i].getKey()) << "\t\t" << table.data[i].getValue() << "\n";
+		}
+	}
+	return os;
+}*/
 

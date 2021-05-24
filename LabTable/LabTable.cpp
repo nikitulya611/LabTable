@@ -4,32 +4,103 @@
 #include "HashTable.h"
 #include <random>
 #include <ctime>
+#include <conio.h>
+
 using namespace std;
+
+void workTable(BaseTable<int>* p)
+{
+	while (true)
+	{
+		int choose = -1;
+		string key = "";
+		int value = 0;
+
+		system("cls");
+
+		cout << "1. Вставить запись\n" << "2. Удалить запись\n" << "3. Найти запись\n" << "4. Вывести таблицу\n" << "0. Выход\n";
+		do {
+			cin >> choose;
+		} while (choose < 0 || choose > 4);
+
+		try {
+
+			switch (choose)
+			{
+			case 0:
+				return;
+			case 1:
+				cout << "Введите ключ:\n";
+				cin.ignore();
+				getline(cin, key);
+				cout << "Введите значение:\n";
+				cin >> value;
+				p->insert(key, value);
+				break;
+
+			case 2:
+				cout << "Введите ключ:\n";
+				cin.ignore();
+				getline(cin, key);
+				p->erase(key);
+				break;
+
+			case 3:
+				cout << "Введите ключ:\n";
+				cin.ignore();
+				getline(cin, key);
+				cout << (*p)[key];
+				break;
+
+			case 4:
+				p->print();
+				break;
+
+			default:
+				break;
+			}
+		}
+		catch (std::exception e)
+		{
+			cout << e.what();
+		}
+
+		_getch();
+	}
+}
+
 
 int main()
 {
 	srand(time(NULL));
+	setlocale(LC_ALL, "RUS");
 
-	try {
-		HashTable<int> hash(101);
-		hash.insert("Aba", 3);
-		hash.print(cout);
-		cout << endl << endl;
-		for (int i = 0; i < 10; i++)
-		{
-			string key = to_string ((rand() % 32)) + to_string((rand() % 32));
-			//cout << i << ' ' << key << endl;
-			hash.insert(key, i * i);
-		}
+	int choose;
 
-		hash.print(cout);
+	BaseTable<int>* p = nullptr;
 
-	}
+	cout << "С какой таблицей вы хотите работать:\n" << "1. ScanTable\n" << "2. SortTable\n" << "3. HashTable\n" << "0. Выход\n";
+	do {
+		cin >> choose;
+	} while (choose < 0 || choose > 3);
 
-	catch (exception e)
+	switch (choose)
 	{
-		cout << e.what();
+	case 0:
+		exit(0);
+
+	case 1:
+		p = new ScanTable<int>;
+		break;
+	case 2:
+		p = new SortTable<int>;
+		break;
+	case 3:
+		p = new HashTable<int>;
+		break;
 	}
+
+	workTable(p);
 
 	return 0;
 }

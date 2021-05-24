@@ -14,7 +14,8 @@ ostream& operator<< (ostream&, const Record<T>&);
 template<class T>
 ostream& operator<<(ostream& os, const Record<T>& rec)
 {
-	os << "{ \"" << rec.key << "\" : " << rec.value << " }";
+	os << rec.getKey() << "\t\t" << rec.getValue();
+
 	return os;
 }
 
@@ -24,11 +25,12 @@ class Record
 {
 public:
 
-	Record(string mKey = "", T mValue = 0) : key(mKey), value(mValue) {};
+	Record(string mKey = "", T mValue = 0) : key(mKey), value(mValue), isDeleted(false) {};
 	Record(const Record<T>& rec)
 	{
 		key = rec.key;
 		value = rec.value;
+		isDeleted = false;
 	}
 
 	~Record() {};
